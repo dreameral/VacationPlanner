@@ -1,7 +1,8 @@
-package com.vacationplanner.auth;
-import com.vacationplanner.auth.Role;
-import com.vacationplanner.auth.User;
-import com.vacationplanner.auth.IUserRepository;
+package com.vacationplanner.service;
+import com.vacationplanner.model.Role;
+import com.vacationplanner.model.User;
+import com.vacationplanner.repository.IUserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

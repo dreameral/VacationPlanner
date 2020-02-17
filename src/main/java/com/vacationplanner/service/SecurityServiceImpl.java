@@ -1,4 +1,4 @@
-package com.vacationplanner.auth;
+package com.vacationplanner.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,6 @@
-package com.vacationplanner.auth;
+package com.vacationplanner.service;
+
+import com.vacationplanner.model.User;
 
 public interface IUserService {
     void save(User user);

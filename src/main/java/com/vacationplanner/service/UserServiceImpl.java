@@ -1,8 +1,9 @@
-package com.vacationplanner.auth;
+package com.vacationplanner.service;
 
-import com.vacationplanner.auth.User;
-import com.vacationplanner.auth.IRoleRepository;
-import com.vacationplanner.auth.IUserRepository;
+import com.vacationplanner.model.User;
+import com.vacationplanner.repository.IRoleRepository;
+import com.vacationplanner.repository.IUserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

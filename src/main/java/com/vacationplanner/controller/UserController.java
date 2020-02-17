@@ -1,9 +1,10 @@
-package com.vacationplanner.auth;
+package com.vacationplanner.controller;
 
-import com.vacationplanner.auth.User;
-import com.vacationplanner.auth.ISecurityService;
-import com.vacationplanner.auth.IUserService;
-import com.vacationplanner.auth.UserValidator;
+import com.vacationplanner.model.User;
+import com.vacationplanner.service.ISecurityService;
+import com.vacationplanner.service.IUserService;
+import com.vacationplanner.util.UserValidator;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

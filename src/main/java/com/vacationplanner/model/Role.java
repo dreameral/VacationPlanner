@@ -1,6 +1,7 @@
-package com.vacationplanner.auth;
+package com.vacationplanner.model;
 
 import javax.persistence.*;
+
 import java.util.Set;
 
 @Entity

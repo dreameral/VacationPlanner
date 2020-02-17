@@ -1,4 +1,4 @@
-package com.vacationplanner.auth;
+package com.vacationplanner.service;
 
 public interface ISecurityService {
 	String findLoggedInUsername();
