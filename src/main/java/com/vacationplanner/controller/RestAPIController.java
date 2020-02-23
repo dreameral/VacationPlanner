@@ -15,11 +15,11 @@ import com.vacationplanner.service.IUserService;
 @RequestMapping("/rest/api/v1")
 public class RestAPIController {
 	@Autowired
-    private IUserService userService;
+	private IUserService userService;
 
 	@GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<User> findAll() {
 		return userService.findAll();
 	}
-	
+
 }
