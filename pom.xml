@@ -17,7 +17,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
-		<start-class>com.vacationplanner.VacationPlannerApplication.java</start-class>
+		<start-class>com.vacationplanner.VacationPlannerApplication</start-class>
 	</properties>
 
 	<dependencies>
