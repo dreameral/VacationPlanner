@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vacationplanner.model.JWTRequest;
 import com.vacationplanner.model.JWTResponse;
 import com.vacationplanner.model.Success;
 import com.vacationplanner.model.User;
@@ -50,15 +49,15 @@ public class AuthenticateController {
 
 		userService.save(user);
 
-		securityService.autoLogin(user.getUsername(), user.getPasswordConfirm());
+		securityService.autoLogin(user.getUsername(), user.getPasswordPlain());
 
 		return ResponseEntity.ok(new Success(true));
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ResponseEntity<?> createAuthenticationToken(@RequestBody JWTRequest authenticationRequest) throws Exception {
-		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-		final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+	public ResponseEntity<?> createAuthenticationToken(@RequestBody User user) throws Exception {
+		authenticate(user.getUsername(), user.getPassword());
+		final UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
 		final String token = JWTUtils.generateToken(userDetails);
 		return ResponseEntity.ok(new JWTResponse(token));
 	}
