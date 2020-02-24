@@ -21,6 +21,7 @@ public class UserValidator implements Validator {
 
 	@Override
 	public void validate(Object o, Errors errors) {
+		// TODO remove this class. Instead add a utility method to validate user
 		User user = (User) o;
 
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty");

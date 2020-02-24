@@ -47,9 +47,11 @@ public class AuthenticateController {
 			return ResponseEntity.ok(new Success(false));
 		}
 
+		String tempPassword = user.getPassword();
+
 		userService.save(user);
 
-		securityService.autoLogin(user.getUsername(), user.getPasswordPlain());
+		securityService.autoLogin(user.getUsername(), tempPassword);
 
 		return ResponseEntity.ok(new Success(true));
 	}

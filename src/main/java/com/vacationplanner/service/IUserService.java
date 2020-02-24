@@ -5,9 +5,11 @@ import java.util.List;
 import com.vacationplanner.model.User;
 
 public interface IUserService {
-    void save(User user);
+	void save(User user);
 
-    User findByUsername(String username);
-    
-    List<User> findAll();
+	User findByUsername(String username);
+
+	List<User> findAll();
+
+	void deleteById(Long id);
 }
