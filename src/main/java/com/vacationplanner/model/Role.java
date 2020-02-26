@@ -1,29 +1,11 @@
 package com.vacationplanner.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+public enum Role {
+  ADMIN(0), TEAM_LEADER(1), TEAM_MEMBER(2);
 
-import lombok.Getter;
-import lombok.Setter;
+  private int id;
 
-@Entity
-@Table(name = "role")
-@Getter
-@Setter
-public class Role {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-
-	private String name;
-
-	public Role() {
-	}
-
-	public Role(Long id) {
-		this.id = id;
-	}
+  private Role(int id) {
+    this.id = id;
+  }
 }

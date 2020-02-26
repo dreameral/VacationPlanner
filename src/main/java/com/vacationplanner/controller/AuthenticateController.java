@@ -1,5 +1,6 @@
 package com.vacationplanner.controller;
 
+import com.vacationplanner.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -49,6 +50,7 @@ public class AuthenticateController {
 
 		String tempPassword = user.getPassword();
 
+		user.setRole(Role.ADMIN); // only administrators can register
 		userService.save(user);
 
 		securityService.autoLogin(user.getUsername(), tempPassword);

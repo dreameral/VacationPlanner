@@ -19,7 +19,7 @@ import com.vacationplanner.model.User;
 import com.vacationplanner.service.IUserService;
 
 @RestController
-@RequestMapping("/rest/api/v1")
+@RequestMapping("/rest")
 public class RestAPIController {
 	@Autowired
 	private IUserService userService;
