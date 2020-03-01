@@ -42,6 +42,12 @@ public class UserServiceImpl implements IUserService {
   }
 
   @Override
+  public User findById(Long id) {
+    Optional<User> user = userRepository.findById(id);
+    return user.isPresent() ? user.get() : null;
+  }
+
+  @Override
   public User findByUsername(String username) {
     return userRepository.findByUsername(username);
   }

@@ -7,6 +7,8 @@ import com.vacationplanner.model.User;
 public interface IUserService {
 	void save(User user);
 
+	User findById(Long id);
+
 	User findByUsername(String username);
 
 	List<User> findAll();
