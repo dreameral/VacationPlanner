@@ -20,31 +20,19 @@ import java.util.Set;
 public class RequestController extends RestAPIController {
 
   @GetMapping(value = "/request")
-  public List<GetRequestDTO> listAllRequests(@RequestParam("userId") Long userId) {
-    if (userId != null)
+  public List<GetRequestDTO> listAllRequests(@RequestParam(value = "userId", required = false) Long userId,
+                                             @RequestParam(value = "status", required = false) String status) {
+    if (userId != null && status != null) {
+      return getByUserAndStatus(userId, status);
+    } else if (userId != null) {
       return getByUserId(userId);
+    } else if (status != null) {
+      return getByStatus(status);
+    }
 
     List<GetRequestDTO> retVal = new ArrayList<>();
     for (Request request : requestService.findAll()) {
       retVal.add(new GetRequestDTO(request, requestDayService.findByRequestId(request.getId())));
-    }
-
-    return retVal;
-  }
-
-  public List<GetRequestDTO> getByUserId(@RequestParam("userId") Long userId) {
-    List<GetRequestDTO> retVal = new ArrayList<>();
-
-    User user = userService.findById(userId);
-
-    if (user == null)
-      return retVal;
-
-    List<Request> requests = requestService.findByUser(user);
-
-    for (Request request : requests) {
-      List<RequestDay> requestDays = requestDayService.findByRequestId(request.getId());
-      retVal.add(new GetRequestDTO(request, requestDays));
     }
 
     return retVal;
@@ -123,6 +111,58 @@ public class RequestController extends RestAPIController {
 
     requestDayService.deleteByRequestId(id);
     requestService.deleteById(id);
+  }
+
+  private List<GetRequestDTO> getByUserId(Long userId) {
+    List<GetRequestDTO> retVal = new ArrayList<>();
+
+    User user = userService.findById(userId);
+
+    if (user == null)
+      return retVal;
+
+    List<Request> requests = requestService.findByUser(user);
+
+    for (Request request : requests) {
+      List<RequestDay> requestDays = requestDayService.findByRequestId(request.getId());
+      retVal.add(new GetRequestDTO(request, requestDays));
+    }
+
+    return retVal;
+  }
+
+  private List<GetRequestDTO> getByStatus(String status) {
+    List<GetRequestDTO> retVal = new ArrayList<>();
+
+    RequestStatus requestStatus = Utilities.getRequestStatusFromString(status);
+    List<Request> requests = requestService.findByStatus(requestStatus);
+
+    for (Request request : requests) {
+      List<RequestDay> requestDays = requestDayService.findByRequestId(request.getId());
+      retVal.add(new GetRequestDTO(request, requestDays));
+    }
+
+    return retVal;
+  }
+
+  private List<GetRequestDTO> getByUserAndStatus(Long userId, String status) {
+    List<GetRequestDTO> retVal = new ArrayList<>();
+
+    RequestStatus requestStatus = Utilities.getRequestStatusFromString(status);
+    User user = userService.findById(userId);
+
+    if (user == null)
+      return retVal;
+
+    //TODO write a common method to get list of GetRequestDTOs from a Request
+    List<Request> requests = requestService.findByUserAndStatus(user, requestStatus);
+
+    for (Request request : requests) {
+      List<RequestDay> requestDays = requestDayService.findByRequestId(request.getId());
+      retVal.add(new GetRequestDTO(request, requestDays));
+    }
+
+    return retVal;
   }
 
 }

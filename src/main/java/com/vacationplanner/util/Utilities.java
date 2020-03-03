@@ -1,5 +1,6 @@
 package com.vacationplanner.util;
 
+import com.vacationplanner.model.RequestStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 
@@ -16,6 +17,17 @@ public class Utilities {
   public static Date getDateFromString(String date) throws ParseException {
     SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantVariables.DATE_FORMAT);
     return dateFormat.parse(date);
+  }
+
+  public static RequestStatus getRequestStatusFromString(String status) {
+    if (status.equalsIgnoreCase("pending"))
+      return RequestStatus.PENDING;
+    else if (status.equalsIgnoreCase("approved"))
+      return RequestStatus.APPROVED;
+    else if (status.equalsIgnoreCase("rejected"))
+      return RequestStatus.REJECTED;
+
+    return RequestStatus.UNKNOWN;
   }
 
 }

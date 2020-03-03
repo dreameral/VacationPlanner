@@ -1,6 +1,7 @@
 package com.vacationplanner.service;
 
 import com.vacationplanner.model.Request;
+import com.vacationplanner.model.RequestStatus;
 import com.vacationplanner.model.User;
 import com.vacationplanner.repository.IRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,14 @@ public class RequestService {
 
   public List<Request> findByUser(User user) {
     return requestRepository.findByUser(user);
+  }
+
+  public List<Request> findByUserAndStatus(User user, RequestStatus status) {
+    return requestRepository.findByUserAndStatus(user, status);
+  }
+
+  public List<Request> findByStatus(RequestStatus status) {
+    return requestRepository.findByStatus(status);
   }
 
   public void save(Request request) {

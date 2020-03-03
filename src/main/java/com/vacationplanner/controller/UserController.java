@@ -1,6 +1,5 @@
 package com.vacationplanner.controller;
 
-import com.vacationplanner.model.Request;
 import com.vacationplanner.model.Success;
 import com.vacationplanner.model.User;
 import com.vacationplanner.util.ConstantVariables;
@@ -10,7 +9,6 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/rest")
