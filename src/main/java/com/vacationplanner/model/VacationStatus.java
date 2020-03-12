@@ -1,5 +1,5 @@
 package com.vacationplanner.model;
 
-public enum RequestStatus {
+public enum VacationStatus {
   APPROVED, REJECTED, PENDING, UNKNOWN
 }

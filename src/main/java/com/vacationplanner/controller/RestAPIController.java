@@ -2,8 +2,7 @@ package com.vacationplanner.controller;
 
 import com.vacationplanner.model.Role;
 import com.vacationplanner.model.User;
-import com.vacationplanner.service.RequestDayService;
-import com.vacationplanner.service.RequestService;
+import com.vacationplanner.service.VacationService;
 import com.vacationplanner.util.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,10 +13,7 @@ public class RestAPIController {
 	protected IUserService userService;
 
 	@Autowired
-	protected RequestService requestService;
-
-	@Autowired
-	protected RequestDayService requestDayService;
+	protected VacationService vacationService;
 
 	protected User getLoggedInUser() {
 		return userService.findByUsername(Utilities.getLoggedInUsername());

@@ -4,13 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.Date;
 
 @Entity
-@Table(name = "request")
+@Table(name = "vacation")
 @Getter
 @Setter
-public class Request {
+public class Vacation {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -18,6 +18,10 @@ public class Request {
   @ManyToOne
   private User user;
 
+  private Date startDate;
+
+  private Date endDate;
+
   @Enumerated
-  private RequestStatus status;
+  private VacationStatus status;
 }

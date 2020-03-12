@@ -1,6 +1,6 @@
 package com.vacationplanner.controller;
 
-import com.vacationplanner.model.Success;
+import com.vacationplanner.dto.Success;
 import com.vacationplanner.model.User;
 import com.vacationplanner.util.ConstantVariables;
 import org.springframework.http.MediaType;

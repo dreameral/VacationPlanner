@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vacationplanner.model.JWTResponse;
-import com.vacationplanner.model.Success;
+import com.vacationplanner.dto.JWTResponse;
+import com.vacationplanner.dto.Success;
 import com.vacationplanner.model.User;
 import com.vacationplanner.service.ISecurityService;
 import com.vacationplanner.service.IUserService;
