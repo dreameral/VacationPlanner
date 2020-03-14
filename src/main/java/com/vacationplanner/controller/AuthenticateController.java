@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vacationplanner.dto.JWTResponse;
+import com.vacationplanner.dto.LoginDTO;
 import com.vacationplanner.dto.Success;
 import com.vacationplanner.model.User;
 import com.vacationplanner.service.ISecurityService;
@@ -59,11 +59,12 @@ public class AuthenticateController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ResponseEntity<?> createAuthenticationToken(@RequestBody User user) throws Exception {
+	public LoginDTO createAuthenticationToken(@RequestBody User user) throws Exception {
 		authenticate(user.getUsername(), user.getPassword());
 		final UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
 		final String token = JWTUtils.generateToken(userDetails);
-		return ResponseEntity.ok(new JWTResponse(token));
+		user = userService.findByUsername(user.getUsername());
+		return new LoginDTO(token, user);
 	}
 
 	private void authenticate(String username, String password) throws Exception {
