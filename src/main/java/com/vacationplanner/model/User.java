@@ -17,11 +17,16 @@ public class User {
 
 	private String username;
 
+	private String email;
+
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String password;
 
 	@Enumerated
 	private Role role;
+
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	private String resetToken;
 
 	@Override
 	public boolean equals(Object obj) {
