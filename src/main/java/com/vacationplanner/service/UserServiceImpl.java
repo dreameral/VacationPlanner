@@ -12,10 +12,14 @@ import com.vacationplanner.repository.IUserRepository;
 
 @Service
 public class UserServiceImpl implements IUserService {
+  private final IUserRepository userRepository;
+  private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
   @Autowired
-  private IUserRepository userRepository;
-  @Autowired
-  private BCryptPasswordEncoder bCryptPasswordEncoder;
+  public UserServiceImpl(IUserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    this.userRepository = userRepository;
+    this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+  }
 
   @Override
   public void save(User user) {
@@ -55,6 +59,11 @@ public class UserServiceImpl implements IUserService {
   @Override
   public User findByUsername(String username) {
     return userRepository.findByUsername(username);
+  }
+
+  @Override
+  public User findByEmailOrUsername(String email, String username) {
+    return userRepository.findByEmailOrUsername(email, username);
   }
 
   @Override

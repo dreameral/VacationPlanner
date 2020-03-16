@@ -12,13 +12,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SecurityServiceImpl implements ISecurityService{
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private UserDetailsService userDetailsService;
-
     private static final Logger logger = LoggerFactory.getLogger(SecurityServiceImpl.class);
+
+    private final AuthenticationManager authenticationManager;
+    private final UserDetailsService userDetailsService;
+
+
+    public SecurityServiceImpl(AuthenticationManager authenticationManager, UserDetailsService userDetailsService) {
+        this.authenticationManager = authenticationManager;
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     public String findLoggedInUsername() {

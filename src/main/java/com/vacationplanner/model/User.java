@@ -25,8 +25,15 @@ public class User {
 	@Enumerated
 	private Role role;
 
+	private boolean enabled;
+
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String resetToken;
+
+	public User() {
+		super();
+		this.enabled = false;
+	}
 
 	@Override
 	public boolean equals(Object obj) {

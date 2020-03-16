@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/rest")
-public class VacationController extends RestAPIController {
+public class VacationController extends BaseController {
 
   @GetMapping(value = "/vacation")
   public List<GetVacationDTO> listAllLeavesVacations(@RequestParam(value = "userId", required = false) Long userId,

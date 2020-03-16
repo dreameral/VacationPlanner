@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/rest")
-public class UserController extends RestAPIController {
+public class UserController extends BaseController {
 
   @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
   public List<User> findAll() {

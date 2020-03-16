@@ -7,22 +7,14 @@ import com.vacationplanner.service.IEmailService;
 import com.vacationplanner.service.ISecurityService;
 import com.vacationplanner.service.IUserService;
 import com.vacationplanner.util.ConstantVariables;
+import com.vacationplanner.util.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
 @RestController
-public class PasswordController {
-  @Autowired
-  private IUserService userService;
-
-  @Autowired
-  private ISecurityService securityService;
-
-  @Autowired
-  private IEmailService emailService;
+public class PasswordController extends BaseController {
 
   @GetMapping(value = "/forgotPassword")
   public Success forgotPassword(@RequestParam(value = "email") String email) {
@@ -35,13 +27,10 @@ public class PasswordController {
     user.setResetToken(randomToken);
     userService.save(user);
 
-    SimpleMailMessage passwordResetEmail = new SimpleMailMessage();
-    passwordResetEmail.setTo(user.getEmail());
-    passwordResetEmail.setSubject("Password Reset Request");
-    passwordResetEmail.setText("To reset password click the link below:\n" +
-        ConstantVariables.APPLICATION_URL + "/resetPassword?token=" + randomToken);
+    String emailContent = "To reset password click the link below:\n" +
+        ConstantVariables.APPLICATION_URL + "/resetPassword?token=" + randomToken;
 
-    emailService.sendEmail(passwordResetEmail);
+    emailService.sendEmail(Utilities.getMailMessage(user.getEmail(), "Password Reset Request", emailContent));
 
     return new Success(true);
   }
@@ -54,6 +43,7 @@ public class PasswordController {
       return new Success(false); //TODO handle error
 
     user.setPassword(resetPasswordDTO.getNewPassword());
+    user.setResetToken("");
     userService.save(user);
     securityService.autoLogin(user.getUsername(), resetPasswordDTO.getNewPassword());
 

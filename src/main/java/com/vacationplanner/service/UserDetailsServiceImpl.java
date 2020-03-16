@@ -14,8 +14,11 @@ import com.vacationplanner.repository.IUserRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-	@Autowired
-	private IUserRepository userRepository;
+	private final IUserRepository userRepository;
+
+	public UserDetailsServiceImpl(IUserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
 
 	@Override
 	@Transactional(readOnly = true)

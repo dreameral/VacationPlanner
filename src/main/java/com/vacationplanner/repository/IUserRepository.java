@@ -9,5 +9,7 @@ public interface IUserRepository extends JpaRepository<User, Long> {
 
 	User findByUsername(String username);
 
+	User findByEmailOrUsername(String email, String username);
+
 	User findByResetToken(String resetToken);
 }

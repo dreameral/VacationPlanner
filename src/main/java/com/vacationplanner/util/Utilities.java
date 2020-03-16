@@ -1,11 +1,14 @@
 package com.vacationplanner.util;
 
 import com.vacationplanner.model.VacationStatus;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Utilities {
@@ -28,6 +31,23 @@ public class Utilities {
       return VacationStatus.REJECTED;
 
     return VacationStatus.UNKNOWN;
+  }
+
+  public static SimpleMailMessage getMailMessage(String to, String subject, String content) {
+    SimpleMailMessage retVal = new SimpleMailMessage();
+
+    retVal.setTo(to);
+    retVal.setSubject(subject);
+    retVal.setText(content);
+
+    return retVal;
+  }
+
+  public static Date calculateExpiryDate(int expiryTimeInMinutes) {
+    Calendar cal = Calendar.getInstance();
+    cal.setTime(new Timestamp(cal.getTime().getTime()));
+    cal.add(Calendar.MINUTE, expiryTimeInMinutes);
+    return new Date(cal.getTime().getTime());
   }
 
 }

@@ -46,9 +46,9 @@ public class JWTUtils implements Serializable {
 	}
 
 	// generate token for user
-	public static String generateToken(UserDetails userDetails) {
+	public static String generateToken(String username) {
 		Map<String, Object> claims = new HashMap<>();
-		return doGenerateToken(claims, userDetails.getUsername());
+		return doGenerateToken(claims, username);
 	}
 
 	// while creating the token -

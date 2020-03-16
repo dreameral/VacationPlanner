@@ -1,44 +1,34 @@
 package com.vacationplanner.controller;
 
+import com.vacationplanner.dto.VerifyAccountDTO;
 import com.vacationplanner.model.Role;
+import com.vacationplanner.model.VerificationToken;
+import com.vacationplanner.service.IVerificationTokenService;
+import com.vacationplanner.util.ConstantVariables;
+import com.vacationplanner.util.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.vacationplanner.dto.LoginDTO;
 import com.vacationplanner.dto.Success;
 import com.vacationplanner.model.User;
-import com.vacationplanner.service.ISecurityService;
-import com.vacationplanner.service.IUserService;
-import com.vacationplanner.service.UserDetailsServiceImpl;
 import com.vacationplanner.util.JWTUtils;
-import com.vacationplanner.util.UserValidator;
+
+import java.util.UUID;
 
 @RestController
-public class AuthenticateController {
-	@Autowired
-	private AuthenticationManager authenticationManager;
+public class AuthenticateController extends BaseController {
+	private final AuthenticationManager authenticationManager;
+	private final IVerificationTokenService verificationTokenService;
 
 	@Autowired
-	private UserDetailsServiceImpl userDetailsService;
-
-	@Autowired
-	private IUserService userService;
-
-	@Autowired
-	private ISecurityService securityService;
-
-	@Autowired
-	private UserValidator userValidator;
+	public AuthenticateController(AuthenticationManager authenticationManager, IVerificationTokenService verificationTokenService) {
+		this.authenticationManager = authenticationManager;
+		this.verificationTokenService = verificationTokenService;
+	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ResponseEntity<?> register(@RequestBody User user, BindingResult bindingResult) {
@@ -48,32 +38,49 @@ public class AuthenticateController {
 			return ResponseEntity.ok(new Success(false));
 		}
 
-		String tempPassword = user.getPassword();
+		String token = UUID.randomUUID().toString();
+		String textMessage = "Thank you for signing up!\n\nTo start using your account you have to first verify it by clicking the link below:\n" +
+				ConstantVariables.APPLICATION_URL + "/verifyAccount?token=" + token;
+		emailService.sendEmail(Utilities.getMailMessage(user.getEmail(), "ACCOUNT VERIFICATION REQUIRED", textMessage));
 
 		user.setRole(Role.ADMIN); // only administrators can register
 		userService.save(user);
 
-		securityService.autoLogin(user.getUsername(), tempPassword);
+		VerificationToken verificationToken = new VerificationToken();
+		verificationToken.setUser(user);
+		verificationToken.setToken(token);
+		verificationToken.setExpirationDate(Utilities.calculateExpiryDate(60));
+
+		verificationTokenService.save(verificationToken);
+
 
 		return ResponseEntity.ok(new Success(true));
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public LoginDTO createAuthenticationToken(@RequestBody User user) throws Exception {
-		authenticate(user.getUsername(), user.getPassword());
-		final UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
-		final String token = JWTUtils.generateToken(userDetails);
-		user = userService.findByUsername(user.getUsername());
+		user = userService.findByEmailOrUsername(user.getUsername(), user.getUsername());
+
+		if (user == null || !user.isEnabled()) {
+			throw new Exception("The user may not exist or it is not activated yet.");
+		}
+
+		final String token = JWTUtils.generateToken(user.getUsername());
 		return new LoginDTO(token, user);
 	}
 
-	private void authenticate(String username, String password) throws Exception {
-		try {
-			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-		} catch (DisabledException e) {
-			throw new Exception("USER_DISABLED", e);
-		} catch (BadCredentialsException e) {
-			throw new Exception("INVALID_CREDENTIALS", e);
-		}
+	@PostMapping(value = "/verifyAccount")
+	public User verifyAccount(@RequestBody VerifyAccountDTO verifyAccountDTO) throws Exception {
+		VerificationToken verificationToken = verificationTokenService.findByToken(verifyAccountDTO.getToken());
+
+		if (verificationToken == null || !verificationToken.isTokenValid())
+			throw new Exception("The verification token does not exist or it has expired. Please sign up again.");
+
+		User user = verificationToken.getUser();
+		user.setEnabled(true);
+
+		userService.save(user);
+
+		return user;
 	}
 }

@@ -1,6 +1,5 @@
 package com.vacationplanner.dto;
 
-import com.vacationplanner.model.Role;
 import com.vacationplanner.model.User;
 import lombok.Getter;
 

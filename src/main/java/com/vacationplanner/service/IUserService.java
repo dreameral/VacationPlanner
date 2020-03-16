@@ -13,6 +13,8 @@ public interface IUserService {
 
 	User findByUsername(String username);
 
+	User findByEmailOrUsername(String email, String username);
+
 	User findByResetToken(String resetToken);
 
 	List<User> findAll();
