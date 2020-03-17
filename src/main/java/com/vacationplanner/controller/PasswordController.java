@@ -30,7 +30,7 @@ public class PasswordController extends BaseController {
     String emailContent = "To reset password click the link below:\n" +
         ConstantVariables.APPLICATION_URL + "/resetPassword?token=" + randomToken;
 
-    emailService.sendEmail(Utilities.getMailMessage(user.getEmail(), "Password Reset Request", emailContent));
+    emailService.sendEmail(Utilities.getMailMessage(new String[]{user.getEmail()}, "Password Reset Request", emailContent));
 
     return new Success(true);
   }

@@ -22,6 +22,12 @@ public class User {
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String password;
 
+	@OneToOne
+	private User admin;
+
+	@OneToOne
+	private User teamLeader;
+
 	@Enumerated
 	private Role role;
 

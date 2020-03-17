@@ -41,7 +41,7 @@ public class AuthenticateController extends BaseController {
 		String token = UUID.randomUUID().toString();
 		String textMessage = "Thank you for signing up!\n\nTo start using your account you have to first verify it by clicking the link below:\n" +
 				ConstantVariables.APPLICATION_URL + "/verifyAccount?token=" + token;
-		emailService.sendEmail(Utilities.getMailMessage(user.getEmail(), "ACCOUNT VERIFICATION REQUIRED", textMessage));
+		emailService.sendEmail(Utilities.getMailMessage(new String[]{user.getEmail()}, "ACCOUNT VERIFICATION REQUIRED", textMessage));
 
 		user.setRole(Role.ADMIN); // only administrators can register
 		userService.save(user);

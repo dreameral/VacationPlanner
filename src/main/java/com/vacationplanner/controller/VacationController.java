@@ -11,8 +11,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/rest")
@@ -48,33 +47,69 @@ public class VacationController extends BaseController {
   }
 
   @PostMapping(value = "/vacation")
-  public ResponseEntity<?> createVacation(@RequestBody PostVacationDTO leaveDTO) throws ParseException {
+  public ResponseEntity<?> createVacation(@RequestBody PostVacationDTO vacationDTO) throws ParseException {
     // populate the request
+    User user = getLoggedInUser();
+
     Vacation vacation = new Vacation();
     vacation.setStatus(VacationStatus.PENDING); // every request will have the pending status when created
-    vacation.setUser(userService.findByUsername(Utilities.getLoggedInUsername()));
-    vacation.setStartDate(Utilities.getDateFromString(leaveDTO.getStartDate()));
-    vacation.setEndDate(Utilities.getDateFromString(leaveDTO.getEndDate()));
+    vacation.setRequestedBy(user);
+    vacation.setStartDate(Utilities.getDateFromString(vacationDTO.getStartDate()));
+    vacation.setEndDate(Utilities.getDateFromString(vacationDTO.getEndDate()));
 
     vacationService.save(vacation);
+
+    if (vacationDTO.isSendEmail()) {
+      User admin = user.getAdmin();
+      User teamLeader = user.getTeamLeader();
+
+      String[] to = new String[teamLeader == null ? 1 : 2];
+      to[0] = admin.getEmail();
+      if (teamLeader != null)
+        to[1] = teamLeader.getEmail();
+
+      String message = vacationDTO.getMessage() == null ? ConstantVariables.DEFAULT_VACATION_MESSAGE : vacationDTO.getMessage();
+
+      emailService.sendEmail(Utilities.getMailMessage(to, "REQUEST FOR DAYS OFF", message));
+    }
 
     return ResponseEntity.ok(new Success(true));
   }
 
   @PutMapping(value = "/vacation/{id}")
-  public ResponseEntity<?> updateVacation(@PathVariable("id") Long id, @RequestBody PostVacationDTO leaveDTO) throws ParseException {
+  public ResponseEntity<?> updateVacation(@PathVariable("id") Long id, @RequestBody PostVacationDTO vacationDTO) throws ParseException {
+    VacationChanges changes = new VacationChanges();
+    User loggedInUser = getLoggedInUser();
     Vacation vacation = vacationService.getById(id);
 
-    if (leaveDTO.getStatus() != null)
-      vacation.setStatus(Utilities.getVacationStatusFromString(leaveDTO.getStatus()));
+    if (vacationDTO.getStatus() != null) {
+      changes.addChange("Status", vacation.getStatus().toString(), vacationDTO.getStatus());
+      vacation.setStatus(Utilities.getVacationStatusFromString(vacationDTO.getStatus()));
+    }
 
-    if (leaveDTO.getStartDate() != null)
-      vacation.setStartDate(Utilities.getDateFromString(leaveDTO.getStartDate()));
+    if (vacationDTO.getStartDate() != null) {
+      changes.addChange("StartDate", vacation.getStartDate().toString(), vacationDTO.getStartDate());
+      vacation.setStartDate(Utilities.getDateFromString(vacationDTO.getStartDate()));
+    }
 
-    if (leaveDTO.getEndDate() != null)
-      vacation.setEndDate(Utilities.getDateFromString(leaveDTO.getEndDate()));
+    if (vacationDTO.getEndDate() != null) {
+      changes.addChange("EndDate", vacation.getEndDate().toString(), vacationDTO.getEndDate());
+      vacation.setEndDate(Utilities.getDateFromString(vacationDTO.getEndDate()));
+    }
 
     vacationService.save(vacation);
+
+    // send email
+    User requester = vacation.getRequestedBy();
+
+    String[] sendTo = new String[2];
+    sendTo[0] = requester.getEmail();
+    if (loggedInUser.equals(requester.getAdmin()))
+      sendTo[1] = requester.getAdmin().getEmail();
+    else
+      sendTo[1] = requester.getTeamLeader().getEmail();
+
+    emailService.sendEmail(Utilities.getMailMessage(sendTo, "STATUS UPDATE", changes.toString()));
 
     return ResponseEntity.ok(new Success(true));
   }
@@ -87,7 +122,7 @@ public class VacationController extends BaseController {
       return;
 
     User loggedInUser = getLoggedInUser();
-    if (!isAdmin(loggedInUser) && !loggedInUser.equals(vacation.getUser())) {
+    if (!isAdmin(loggedInUser) && !loggedInUser.equals(vacation.getRequestedBy())) {
       throw new AccessDeniedException(ConstantVariables.NOT_ALLOWED);
     }
 
@@ -141,6 +176,37 @@ public class VacationController extends BaseController {
     }
 
     return retVal;
+  }
+
+  class VacationChanges {
+    private HashMap<String, String[]> changes;
+
+    public VacationChanges() {
+      changes = new HashMap<>();
+    }
+
+    public void addChange(String field, String from, String to) {
+      changes.put(field, new String[]{from, to});
+    }
+
+    @Override
+    public String toString() {
+      StringBuilder retVal = new StringBuilder();
+      Iterator iterator = changes.entrySet().iterator();
+
+      retVal.append("The changes made to your application for days off are:\n");
+      while (iterator.hasNext()) {
+        Map.Entry<String, String[]> entry = (Map.Entry<String, String[]>) iterator.next();
+
+        retVal.append(entry.getKey()).append(" was changed from '")
+            .append(entry.getValue()[0])
+            .append("' to '")
+            .append(entry.getValue()[1])
+            .append("'.\n");
+      }
+
+      return retVal.toString();
+    }
   }
 
 }

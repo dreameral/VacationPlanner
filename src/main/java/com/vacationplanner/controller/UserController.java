@@ -26,10 +26,12 @@ public class UserController extends BaseController {
 
   @PostMapping(value = "/users")
   public ResponseEntity<?> createUser(@RequestBody User user) {
-    if (!isAdmin(getLoggedInUser())) {
+    User loggedInUser = getLoggedInUser();
+    if (!isAdmin(loggedInUser)) {
       throw new AccessDeniedException(ConstantVariables.NOT_ALLOWED);
     }
 
+    user.setAdmin(loggedInUser);
     userService.save(user);
 
     return ResponseEntity.ok(user);
@@ -50,14 +52,14 @@ public class UserController extends BaseController {
   }
 
   @DeleteMapping(value = "/users/{id}")
-  public ResponseEntity<?> deleteUser(@PathVariable("id") Long id) {
+  public Success deleteUser(@PathVariable("id") Long id) {
     if (!isAdmin(getLoggedInUser())) {
       throw new AccessDeniedException(ConstantVariables.NOT_ALLOWED);
     }
 
     userService.deleteById(id);
 
-    return ResponseEntity.ok(new Success(true));
+    return new Success(true);
   }
 
 }

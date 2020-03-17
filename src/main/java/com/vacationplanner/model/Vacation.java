@@ -16,7 +16,7 @@ public class Vacation {
   private Long id;
 
   @ManyToOne
-  private User user;
+  private User requestedBy;
 
   private Date startDate;
 

@@ -17,11 +17,11 @@ public class VacationService {
   IVacationRepository leaveRepository;
 
   public List<Vacation> findByUser(User user) {
-    return leaveRepository.findByUser(user);
+    return leaveRepository.findByRequestedBy(user);
   }
 
   public List<Vacation> findByUserAndStatus(User user, VacationStatus status) {
-    return leaveRepository.findByUserAndStatus(user, status);
+    return leaveRepository.findByRequestedByAndStatus(user, status);
   }
 
   public List<Vacation> findByStatus(VacationStatus status) {

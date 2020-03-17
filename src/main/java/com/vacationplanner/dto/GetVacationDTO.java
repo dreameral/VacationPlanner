@@ -20,7 +20,7 @@ public class GetVacationDTO {
     this.id = vacation.getId();
     this.startDate = vacation.getStartDate();
     this.endDate = vacation.getEndDate();
-    this.userId = vacation.getUser().getId();
+    this.userId = vacation.getRequestedBy().getId();
     this.status = vacation.getStatus();
   }
 

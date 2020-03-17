@@ -11,9 +11,9 @@ import java.util.List;
 @Repository
 public interface IVacationRepository extends JpaRepository<Vacation, Long> {
 
-  List<Vacation> findByUser(User user);
+  List<Vacation> findByRequestedBy(User user);
 
-  List<Vacation> findByUserAndStatus(User user, VacationStatus status);
+  List<Vacation> findByRequestedByAndStatus(User user, VacationStatus status);
 
   List<Vacation> findByStatus(VacationStatus status);
 

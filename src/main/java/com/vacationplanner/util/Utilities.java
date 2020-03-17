@@ -33,7 +33,7 @@ public class Utilities {
     return VacationStatus.UNKNOWN;
   }
 
-  public static SimpleMailMessage getMailMessage(String to, String subject, String content) {
+  public static SimpleMailMessage getMailMessage(String[] to, String subject, String content) {
     SimpleMailMessage retVal = new SimpleMailMessage();
 
     retVal.setTo(to);
