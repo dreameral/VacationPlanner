@@ -9,41 +9,41 @@ import lombok.Data;
 @Table(name = "user")
 @Data
 public class User extends BasicEntity {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	private String username;
+    private String username;
 
-	private String email;
+    private String email;
 
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	private String password;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String password;
 
-	@OneToOne
-	private User admin;
+    @OneToOne
+    private User admin;
 
-	@OneToOne
-	private User teamLeader;
+    @OneToOne
+    private User teamLeader;
 
-	@Enumerated
-	private Role role;
+    @Enumerated
+    private Role role;
 
-	private boolean enabled;
+    private boolean enabled;
 
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	private String resetToken;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String resetToken;
 
-	public User() {
-		super();
-		this.enabled = false;
-	}
+    public User() {
+        super();
+        this.enabled = false;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (!(obj instanceof User))
-			return false;
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof User))
+            return false;
 
-		return this.id.equals(((User) obj).getId());
-	}
+        return this.id.equals(((User) obj).getId());
+    }
 }

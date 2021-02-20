@@ -6,15 +6,15 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PostVacationDTO {
-  private String startDate;
-  private String endDate;
-  private String status;
-  private String message;
-  private boolean sendEmail;
+    private String startDate;
+    private String endDate;
+    private String status;
+    private String message;
+    private boolean sendEmail;
 
-  public PostVacationDTO() {
-    super();
-    sendEmail = true;
-  }
+    public PostVacationDTO() {
+        super();
+        sendEmail = true;
+    }
 
 }

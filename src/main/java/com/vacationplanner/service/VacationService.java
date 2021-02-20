@@ -13,39 +13,39 @@ import java.util.Optional;
 @Service
 public class VacationService {
 
-  @Autowired
-  VacationRepository leaveRepository;
+    @Autowired
+    VacationRepository leaveRepository;
 
-  public List<Vacation> findByUser(User user) {
-    return leaveRepository.findByRequestedBy(user);
-  }
+    public List<Vacation> findByUser(User user) {
+        return leaveRepository.findByRequestedBy(user);
+    }
 
-  public List<Vacation> findByUserAndStatus(User user, VacationStatus status) {
-    return leaveRepository.findByRequestedByAndStatus(user, status);
-  }
+    public List<Vacation> findByUserAndStatus(User user, VacationStatus status) {
+        return leaveRepository.findByRequestedByAndStatus(user, status);
+    }
 
-  public List<Vacation> findByStatus(VacationStatus status) {
-    return leaveRepository.findByStatus(status);
-  }
+    public List<Vacation> findByStatus(VacationStatus status) {
+        return leaveRepository.findByStatus(status);
+    }
 
-  public void save(Vacation vacation) {
-    leaveRepository.save(vacation);
-  }
+    public void save(Vacation vacation) {
+        leaveRepository.save(vacation);
+    }
 
-  public List<Vacation> findAll() {
-    return leaveRepository.findAll();
-  }
+    public List<Vacation> findAll() {
+        return leaveRepository.findAll();
+    }
 
-  public Vacation getById(Long id) {
-    Optional<Vacation> request = leaveRepository.findById(id);
-    if (request.isPresent())
-      return request.get();
+    public Vacation getById(Long id) {
+        Optional<Vacation> request = leaveRepository.findById(id);
+        if (request.isPresent())
+            return request.get();
 
-    return null;
-  }
+        return null;
+    }
 
-  public void deleteById(Long id) {
-    leaveRepository.deleteById(id);
-  }
+    public void deleteById(Long id) {
+        leaveRepository.deleteById(id);
+    }
 
 }

@@ -9,17 +9,17 @@ import java.util.Date;
 @Table(name = "vacation")
 @Data
 public class Vacation extends BasicEntity {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  @ManyToOne
-  private User requestedBy;
+    @ManyToOne
+    private User requestedBy;
 
-  private Date startDate;
+    private Date startDate;
 
-  private Date endDate;
+    private Date endDate;
 
-  @Enumerated
-  private VacationStatus status;
+    @Enumerated
+    private VacationStatus status;
 }

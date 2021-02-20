@@ -13,20 +13,20 @@ import com.vacationplanner.repository.UserRepository;
 
 @Service
 public class VPUserDetailsService implements UserDetailsService {
-	private final UserRepository userRepository;
+    private final UserRepository userRepository;
 
-	public VPUserDetailsService(UserRepository userRepository) {
-		this.userRepository = userRepository;
-	}
+    public VPUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
-	@Override
-	@Transactional(readOnly = true)
-	public UserDetails loadUserByUsername(String username) {
-		User user = userRepository.findByUsername(username);
-		if (user == null)
-			throw new UsernameNotFoundException(username);
+    @Override
+    @Transactional(readOnly = true)
+    public UserDetails loadUserByUsername(String username) {
+        User user = userRepository.findByUsername(username);
+        if (user == null)
+            throw new UsernameNotFoundException(username);
 
-		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-				new HashSet<>());
-	}
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
+            new HashSet<>());
+    }
 }

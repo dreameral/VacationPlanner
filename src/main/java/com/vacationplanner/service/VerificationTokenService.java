@@ -8,18 +8,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class VerificationTokenService {
 
-  private final VerificationTokenRepository verificationTokenRepository;
+    private final VerificationTokenRepository verificationTokenRepository;
 
-  @Autowired
-  public VerificationTokenService(VerificationTokenRepository verificationTokenRepository) {
-    this.verificationTokenRepository = verificationTokenRepository;
-  }
+    @Autowired
+    public VerificationTokenService(VerificationTokenRepository verificationTokenRepository) {
+        this.verificationTokenRepository = verificationTokenRepository;
+    }
 
-  public VerificationToken findByToken(String token) {
-    return verificationTokenRepository.findByToken(token);
-  }
+    public VerificationToken findByToken(String token) {
+        return verificationTokenRepository.findByToken(token);
+    }
 
-  public void save(VerificationToken verificationToken) {
-    verificationTokenRepository.save(verificationToken);
-  }
+    public void save(VerificationToken verificationToken) {
+        verificationTokenRepository.save(verificationToken);
+    }
 }

@@ -12,64 +12,64 @@ import com.vacationplanner.repository.UserRepository;
 
 @Service
 public class UserService {
-  private final UserRepository userRepository;
-  private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-  @Autowired
-  public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
-    this.userRepository = userRepository;
-    this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-  }
-
-  public void save(User user) {
-    Optional<User> entity = null;
-    if (user.getId() != null)
-      entity = userRepository.findById(user.getId());
-
-    if (entity != null && entity.isPresent()) {
-      User updatedUser = entity.get();
-
-      if (user.getPassword() != null)
-        updatedUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-      if (user.getRole() != null)
-        updatedUser.setRole(user.getRole());
-      if (user.getUsername() != null)
-        updatedUser.setUsername(user.getUsername());
-
-      userRepository.save(updatedUser);
-    } else {
-      user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-
-      userRepository.save(user);
+    @Autowired
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.userRepository = userRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
-  }
 
-  public User findById(Long id) {
-    Optional<User> user = userRepository.findById(id);
-    return user.isPresent() ? user.get() : null;
-  }
+    public void save(User user) {
+        Optional<User> entity = null;
+        if (user.getId() != null)
+            entity = userRepository.findById(user.getId());
 
-  public User findByEmail(String email) {
-    return userRepository.findByEmail(email);
-  }
+        if (entity != null && entity.isPresent()) {
+            User updatedUser = entity.get();
 
-  public User findByUsername(String username) {
-    return userRepository.findByUsername(username);
-  }
+            if (user.getPassword() != null)
+                updatedUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            if (user.getRole() != null)
+                updatedUser.setRole(user.getRole());
+            if (user.getUsername() != null)
+                updatedUser.setUsername(user.getUsername());
 
-  public User findByEmailOrUsername(String email, String username) {
-    return userRepository.findByEmailOrUsername(email, username);
-  }
+            userRepository.save(updatedUser);
+        } else {
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
-  public User findByResetToken(String resetToken) {
-    return userRepository.findByResetToken(resetToken);
-  }
+            userRepository.save(user);
+        }
+    }
 
-  public List<User> findAll() {
-    return userRepository.findAll();
-  }
+    public User findById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        return user.isPresent() ? user.get() : null;
+    }
 
-  public void deleteById(Long id) {
-    userRepository.deleteById(id);
-  }
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    public User findByEmailOrUsername(String email, String username) {
+        return userRepository.findByEmailOrUsername(email, username);
+    }
+
+    public User findByResetToken(String resetToken) {
+        return userRepository.findByResetToken(resetToken);
+    }
+
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    public void deleteById(Long id) {
+        userRepository.deleteById(id);
+    }
 }

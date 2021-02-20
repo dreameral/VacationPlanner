@@ -13,41 +13,41 @@ import java.util.Date;
 
 public class Utilities {
 
-  public static String getLoggedInUsername() {
-    return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
-  }
+    public static String getLoggedInUsername() {
+        return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+    }
 
-  public static Date getDateFromString(String date) throws ParseException {
-    SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.DATE_FORMAT);
-    return dateFormat.parse(date);
-  }
+    public static Date getDateFromString(String date) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.DATE_FORMAT);
+        return dateFormat.parse(date);
+    }
 
-  public static VacationStatus getVacationStatusFromString(String status) {
-    if (status.equalsIgnoreCase("pending"))
-      return VacationStatus.PENDING;
-    else if (status.equalsIgnoreCase("approved"))
-      return VacationStatus.APPROVED;
-    else if (status.equalsIgnoreCase("rejected"))
-      return VacationStatus.REJECTED;
+    public static VacationStatus getVacationStatusFromString(String status) {
+        if (status.equalsIgnoreCase("pending"))
+            return VacationStatus.PENDING;
+        else if (status.equalsIgnoreCase("approved"))
+            return VacationStatus.APPROVED;
+        else if (status.equalsIgnoreCase("rejected"))
+            return VacationStatus.REJECTED;
 
-    return VacationStatus.UNKNOWN;
-  }
+        return VacationStatus.UNKNOWN;
+    }
 
-  public static SimpleMailMessage getMailMessage(String[] to, String subject, String content) {
-    SimpleMailMessage retVal = new SimpleMailMessage();
+    public static SimpleMailMessage getMailMessage(String[] to, String subject, String content) {
+        SimpleMailMessage retVal = new SimpleMailMessage();
 
-    retVal.setTo(to);
-    retVal.setSubject(subject);
-    retVal.setText(content);
+        retVal.setTo(to);
+        retVal.setSubject(subject);
+        retVal.setText(content);
 
-    return retVal;
-  }
+        return retVal;
+    }
 
-  public static Date calculateExpiryDate(int expiryTimeInMinutes) {
-    Calendar cal = Calendar.getInstance();
-    cal.setTime(new Timestamp(cal.getTime().getTime()));
-    cal.add(Calendar.MINUTE, expiryTimeInMinutes);
-    return new Date(cal.getTime().getTime());
-  }
+    public static Date calculateExpiryDate(int expiryTimeInMinutes) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Timestamp(cal.getTime().getTime()));
+        cal.add(Calendar.MINUTE, expiryTimeInMinutes);
+        return new Date(cal.getTime().getTime());
+    }
 
 }

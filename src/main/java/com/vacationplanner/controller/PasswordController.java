@@ -12,38 +12,38 @@ import java.util.UUID;
 @RestController
 public class PasswordController extends BaseController {
 
-  @GetMapping(value = "/forgotPassword")
-  public Success forgotPassword(@RequestParam(value = "email") String email) {
-    User user = userService.findByEmail(email);
+    @GetMapping(value = "/forgotPassword")
+    public Success forgotPassword(@RequestParam(value = "email") String email) {
+        User user = userService.findByEmail(email);
 
-    if (user == null)
-      return new Success(false); //TODO handle error
+        if (user == null)
+            return new Success(false); //TODO handle error
 
-    String randomToken = UUID.randomUUID().toString();
-    user.setResetToken(randomToken);
-    userService.save(user);
+        String randomToken = UUID.randomUUID().toString();
+        user.setResetToken(randomToken);
+        userService.save(user);
 
-    String emailContent = "To reset password click the link below:\n" +
-        Constants.APPLICATION_URL + "/resetPassword?token=" + randomToken;
+        String emailContent = "To reset password click the link below:\n" +
+            Constants.APPLICATION_URL + "/resetPassword?token=" + randomToken;
 
-    emailService.sendEmail(Utilities.getMailMessage(new String[]{user.getEmail()}, "Password Reset Request", emailContent));
+        emailService.sendEmail(Utilities.getMailMessage(new String[]{user.getEmail()}, "Password Reset Request", emailContent));
 
-    return new Success(true);
-  }
+        return new Success(true);
+    }
 
-  @PostMapping(value = "/resetPassword")
-  public Success resetPassword(@RequestBody ResetPasswordDTO resetPasswordDTO) {
-    User user = userService.findByResetToken(resetPasswordDTO.getResetToken());
+    @PostMapping(value = "/resetPassword")
+    public Success resetPassword(@RequestBody ResetPasswordDTO resetPasswordDTO) {
+        User user = userService.findByResetToken(resetPasswordDTO.getResetToken());
 
-    if (user == null)
-      return new Success(false); //TODO handle error
+        if (user == null)
+            return new Success(false); //TODO handle error
 
-    user.setPassword(resetPasswordDTO.getNewPassword());
-    user.setResetToken("");
-    userService.save(user);
-    securityService.autoLogin(user.getUsername(), resetPasswordDTO.getNewPassword());
+        user.setPassword(resetPasswordDTO.getNewPassword());
+        user.setResetToken("");
+        userService.save(user);
+        securityService.autoLogin(user.getUsername(), resetPasswordDTO.getNewPassword());
 
-    return new Success(true);
-  }
+        return new Success(true);
+    }
 
 }

@@ -10,20 +10,20 @@ import java.util.Date;
 @Data
 public class VerificationToken extends BasicEntity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  @OneToOne
-  private User user;
+    @OneToOne
+    private User user;
 
-  private Date expirationDate;
+    private Date expirationDate;
 
-  private String token;
+    private String token;
 
-  public boolean isTokenValid() {
-    Date now = new Date();
-    return expirationDate.after(now);
-  }
+    public boolean isTokenValid() {
+        Date now = new Date();
+        return expirationDate.after(now);
+    }
 
 }

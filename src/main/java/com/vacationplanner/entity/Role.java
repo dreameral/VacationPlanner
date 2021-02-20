@@ -1,11 +1,11 @@
 package com.vacationplanner.entity;
 
 public enum Role {
-  ADMIN(0), TEAM_LEADER(1), TEAM_MEMBER(2);
+    ADMIN(0), TEAM_LEADER(1), TEAM_MEMBER(2);
 
-  private int id;
+    private int id;
 
-  Role(int id) {
-    this.id = id;
-  }
+    Role(int id) {
+        this.id = id;
+    }
 }

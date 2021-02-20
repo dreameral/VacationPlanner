@@ -11,10 +11,10 @@ import java.util.List;
 @Repository
 public interface VacationRepository extends JpaRepository<Vacation, Long> {
 
-  List<Vacation> findByRequestedBy(User user);
+    List<Vacation> findByRequestedBy(User user);
 
-  List<Vacation> findByRequestedByAndStatus(User user, VacationStatus status);
+    List<Vacation> findByRequestedByAndStatus(User user, VacationStatus status);
 
-  List<Vacation> findByStatus(VacationStatus status);
+    List<Vacation> findByStatus(VacationStatus status);
 
 }

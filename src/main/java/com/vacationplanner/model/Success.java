@@ -4,9 +4,9 @@ import lombok.Getter;
 
 @Getter
 public class Success {
-	private final boolean success;
+    private final boolean success;
 
-	public Success(boolean success) {
-		this.success = success;
-	}
+    public Success(boolean success) {
+        this.success = success;
+    }
 }
