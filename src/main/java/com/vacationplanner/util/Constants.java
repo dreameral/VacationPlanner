@@ -1,6 +1,6 @@
 package com.vacationplanner.util;
 
-public class ConstantVariables {
+public class Constants {
   public static final String DATE_FORMAT = "dd/MM/yyyy";
   public static final String APPLICATION_URL = "http://localhost:4200";
 

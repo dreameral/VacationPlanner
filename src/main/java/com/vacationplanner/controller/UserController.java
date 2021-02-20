@@ -1,8 +1,8 @@
 package com.vacationplanner.controller;
 
-import com.vacationplanner.dto.Success;
-import com.vacationplanner.model.User;
-import com.vacationplanner.util.ConstantVariables;
+import com.vacationplanner.model.Success;
+import com.vacationplanner.entity.User;
+import com.vacationplanner.util.Constants;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -28,7 +28,7 @@ public class UserController extends BaseController {
   public ResponseEntity<?> createUser(@RequestBody User user) {
     User loggedInUser = getLoggedInUser();
     if (!isAdmin(loggedInUser)) {
-      throw new AccessDeniedException(ConstantVariables.NOT_ALLOWED);
+      throw new AccessDeniedException(Constants.NOT_ALLOWED);
     }
 
     user.setAdmin(loggedInUser);
@@ -43,7 +43,7 @@ public class UserController extends BaseController {
     User loggedInUser = getLoggedInUser();
 
     if (isTeamMember(loggedInUser) && !user.equals(loggedInUser)) {
-      throw new AccessDeniedException(ConstantVariables.NOT_ALLOWED);
+      throw new AccessDeniedException(Constants.NOT_ALLOWED);
     }
 
     userService.save(user);
@@ -54,7 +54,7 @@ public class UserController extends BaseController {
   @DeleteMapping(value = "/users/{id}")
   public Success deleteUser(@PathVariable("id") Long id) {
     if (!isAdmin(getLoggedInUser())) {
-      throw new AccessDeniedException(ConstantVariables.NOT_ALLOWED);
+      throw new AccessDeniedException(Constants.NOT_ALLOWED);
     }
 
     userService.deleteById(id);

@@ -1,10 +1,10 @@
 package com.vacationplanner.controller;
 
-import com.vacationplanner.dto.VerifyAccountDTO;
-import com.vacationplanner.model.Role;
-import com.vacationplanner.model.VerificationToken;
-import com.vacationplanner.service.IVerificationTokenService;
-import com.vacationplanner.util.ConstantVariables;
+import com.vacationplanner.model.VerifyAccountDTO;
+import com.vacationplanner.entity.Role;
+import com.vacationplanner.entity.VerificationToken;
+import com.vacationplanner.service.VerificationTokenService;
+import com.vacationplanner.util.Constants;
 import com.vacationplanner.util.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +12,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import com.vacationplanner.dto.LoginDTO;
-import com.vacationplanner.dto.Success;
-import com.vacationplanner.model.User;
+import com.vacationplanner.model.LoginDTO;
+import com.vacationplanner.model.Success;
+import com.vacationplanner.entity.User;
 import com.vacationplanner.util.JWTUtils;
 
 import java.util.UUID;
@@ -22,10 +22,10 @@ import java.util.UUID;
 @RestController
 public class AuthenticateController extends BaseController {
 	private final AuthenticationManager authenticationManager;
-	private final IVerificationTokenService verificationTokenService;
+	private final VerificationTokenService verificationTokenService;
 
 	@Autowired
-	public AuthenticateController(AuthenticationManager authenticationManager, IVerificationTokenService verificationTokenService) {
+	public AuthenticateController(AuthenticationManager authenticationManager, VerificationTokenService verificationTokenService) {
 		this.authenticationManager = authenticationManager;
 		this.verificationTokenService = verificationTokenService;
 	}
@@ -40,7 +40,7 @@ public class AuthenticateController extends BaseController {
 
 		String token = UUID.randomUUID().toString();
 		String textMessage = "Thank you for signing up!\n\nTo start using your account you have to first verify it by clicking the link below:\n" +
-				ConstantVariables.APPLICATION_URL + "/verifyAccount?token=" + token;
+				Constants.APPLICATION_URL + "/verifyAccount?token=" + token;
 		emailService.sendEmail(Utilities.getMailMessage(new String[]{user.getEmail()}, "ACCOUNT VERIFICATION REQUIRED", textMessage));
 
 		user.setRole(Role.ADMIN); // only administrators can register

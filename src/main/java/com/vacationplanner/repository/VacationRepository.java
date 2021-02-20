@@ -1,15 +1,15 @@
 package com.vacationplanner.repository;
 
-import com.vacationplanner.model.Vacation;
-import com.vacationplanner.model.VacationStatus;
-import com.vacationplanner.model.User;
+import com.vacationplanner.entity.Vacation;
+import com.vacationplanner.entity.VacationStatus;
+import com.vacationplanner.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface IVacationRepository extends JpaRepository<Vacation, Long> {
+public interface VacationRepository extends JpaRepository<Vacation, Long> {
 
   List<Vacation> findByRequestedBy(User user);
 

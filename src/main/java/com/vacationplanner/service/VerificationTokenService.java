@@ -1,26 +1,24 @@
 package com.vacationplanner.service;
 
-import com.vacationplanner.model.VerificationToken;
-import com.vacationplanner.repository.IVerificationTokenRepository;
+import com.vacationplanner.entity.VerificationToken;
+import com.vacationplanner.repository.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class VerificationTokenServiceImpl implements IVerificationTokenService {
+public class VerificationTokenService {
 
-  private final IVerificationTokenRepository verificationTokenRepository;
+  private final VerificationTokenRepository verificationTokenRepository;
 
   @Autowired
-  public VerificationTokenServiceImpl(IVerificationTokenRepository verificationTokenRepository) {
+  public VerificationTokenService(VerificationTokenRepository verificationTokenRepository) {
     this.verificationTokenRepository = verificationTokenRepository;
   }
 
-  @Override
   public VerificationToken findByToken(String token) {
     return verificationTokenRepository.findByToken(token);
   }
 
-  @Override
   public void save(VerificationToken verificationToken) {
     verificationTokenRepository.save(verificationToken);
   }

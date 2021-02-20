@@ -1,6 +1,6 @@
-package com.vacationplanner.dto;
+package com.vacationplanner.model;
 
-import com.vacationplanner.model.User;
+import com.vacationplanner.entity.User;
 import lombok.Getter;
 
 @Getter

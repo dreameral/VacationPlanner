@@ -6,15 +6,14 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
-public class EmailServiceImpl implements IEmailService {
+public class EmailService {
 
   private final JavaMailSender mailSender;
 
-  public EmailServiceImpl(JavaMailSender mailSender) {
+  public EmailService(JavaMailSender mailSender) {
     this.mailSender = mailSender;
   }
 
-  @Override
   public void sendEmail(SimpleMailMessage email) {
     mailSender.send(email);
   }

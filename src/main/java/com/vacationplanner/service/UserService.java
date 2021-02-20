@@ -7,21 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.vacationplanner.model.User;
-import com.vacationplanner.repository.IUserRepository;
+import com.vacationplanner.entity.User;
+import com.vacationplanner.repository.UserRepository;
 
 @Service
-public class UserServiceImpl implements IUserService {
-  private final IUserRepository userRepository;
+public class UserService {
+  private final UserRepository userRepository;
   private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
   @Autowired
-  public UserServiceImpl(IUserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+  public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
     this.userRepository = userRepository;
     this.bCryptPasswordEncoder = bCryptPasswordEncoder;
   }
 
-  @Override
   public void save(User user) {
     Optional<User> entity = null;
     if (user.getId() != null)
@@ -45,38 +44,31 @@ public class UserServiceImpl implements IUserService {
     }
   }
 
-  @Override
   public User findById(Long id) {
     Optional<User> user = userRepository.findById(id);
     return user.isPresent() ? user.get() : null;
   }
 
-  @Override
   public User findByEmail(String email) {
     return userRepository.findByEmail(email);
   }
 
-  @Override
   public User findByUsername(String username) {
     return userRepository.findByUsername(username);
   }
 
-  @Override
   public User findByEmailOrUsername(String email, String username) {
     return userRepository.findByEmailOrUsername(email, username);
   }
 
-  @Override
   public User findByResetToken(String resetToken) {
     return userRepository.findByResetToken(resetToken);
   }
 
-  @Override
   public List<User> findAll() {
     return userRepository.findAll();
   }
 
-  @Override
   public void deleteById(Long id) {
     userRepository.deleteById(id);
   }

@@ -1,9 +1,9 @@
 package com.vacationplanner.service;
 
-import com.vacationplanner.model.Vacation;
-import com.vacationplanner.model.VacationStatus;
-import com.vacationplanner.model.User;
-import com.vacationplanner.repository.IVacationRepository;
+import com.vacationplanner.entity.Vacation;
+import com.vacationplanner.entity.VacationStatus;
+import com.vacationplanner.entity.User;
+import com.vacationplanner.repository.VacationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ import java.util.Optional;
 public class VacationService {
 
   @Autowired
-  IVacationRepository leaveRepository;
+  VacationRepository leaveRepository;
 
   public List<Vacation> findByUser(User user) {
     return leaveRepository.findByRequestedBy(user);

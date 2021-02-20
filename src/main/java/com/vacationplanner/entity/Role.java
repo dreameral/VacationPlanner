@@ -1,4 +1,4 @@
-package com.vacationplanner.model;
+package com.vacationplanner.entity;
 
 public enum Role {
   ADMIN(0), TEAM_LEADER(1), TEAM_MEMBER(2);

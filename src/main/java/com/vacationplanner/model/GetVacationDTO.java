@@ -1,7 +1,7 @@
-package com.vacationplanner.dto;
+package com.vacationplanner.model;
 
-import com.vacationplanner.model.Vacation;
-import com.vacationplanner.model.VacationStatus;
+import com.vacationplanner.entity.Vacation;
+import com.vacationplanner.entity.VacationStatus;
 import lombok.Getter;
 import lombok.Setter;
 

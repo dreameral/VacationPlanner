@@ -1,6 +1,5 @@
-package com.vacationplanner.dto;
+package com.vacationplanner.model;
 
-import com.vacationplanner.model.VacationStatus;
 import lombok.Getter;
 import lombok.Setter;
 

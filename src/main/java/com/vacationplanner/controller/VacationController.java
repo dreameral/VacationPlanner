@@ -1,10 +1,10 @@
 package com.vacationplanner.controller;
 
-import com.vacationplanner.dto.GetVacationDTO;
-import com.vacationplanner.dto.PostVacationDTO;
-import com.vacationplanner.dto.Success;
-import com.vacationplanner.model.*;
-import com.vacationplanner.util.ConstantVariables;
+import com.vacationplanner.model.GetVacationDTO;
+import com.vacationplanner.model.PostVacationDTO;
+import com.vacationplanner.model.Success;
+import com.vacationplanner.entity.*;
+import com.vacationplanner.util.Constants;
 import com.vacationplanner.util.Utilities;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -68,7 +68,7 @@ public class VacationController extends BaseController {
       if (teamLeader != null)
         to[1] = teamLeader.getEmail();
 
-      String message = vacationDTO.getMessage() == null ? ConstantVariables.DEFAULT_VACATION_MESSAGE : vacationDTO.getMessage();
+      String message = vacationDTO.getMessage() == null ? Constants.DEFAULT_VACATION_MESSAGE : vacationDTO.getMessage();
 
       emailService.sendEmail(Utilities.getMailMessage(to, "REQUEST FOR DAYS OFF", message));
     }
@@ -123,7 +123,7 @@ public class VacationController extends BaseController {
 
     User loggedInUser = getLoggedInUser();
     if (!isAdmin(loggedInUser) && !loggedInUser.equals(vacation.getRequestedBy())) {
-      throw new AccessDeniedException(ConstantVariables.NOT_ALLOWED);
+      throw new AccessDeniedException(Constants.NOT_ALLOWED);
     }
 
     vacationService.deleteById(id);

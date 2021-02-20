@@ -1,4 +1,4 @@
-package com.vacationplanner.dto;
+package com.vacationplanner.model;
 
 import lombok.Getter;
 import lombok.Setter;

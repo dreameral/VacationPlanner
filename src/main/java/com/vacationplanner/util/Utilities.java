@@ -1,6 +1,6 @@
 package com.vacationplanner.util;
 
-import com.vacationplanner.model.VacationStatus;
+import com.vacationplanner.entity.VacationStatus;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -18,7 +18,7 @@ public class Utilities {
   }
 
   public static Date getDateFromString(String date) throws ParseException {
-    SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantVariables.DATE_FORMAT);
+    SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.DATE_FORMAT);
     return dateFormat.parse(date);
   }
 

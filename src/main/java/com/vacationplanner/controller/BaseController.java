@@ -1,7 +1,7 @@
 package com.vacationplanner.controller;
 
-import com.vacationplanner.model.Role;
-import com.vacationplanner.model.User;
+import com.vacationplanner.entity.Role;
+import com.vacationplanner.entity.User;
 import com.vacationplanner.service.*;
 import com.vacationplanner.util.UserValidator;
 import com.vacationplanner.util.Utilities;
@@ -9,19 +9,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class BaseController {
 	@Autowired
-	protected IUserService userService;
+	protected UserService userService;
 
 	@Autowired
 	protected VacationService vacationService;
 
 	@Autowired
-	protected IEmailService emailService;
+	protected EmailService emailService;
 
 	@Autowired
-	protected ISecurityService securityService;
+	protected SecurityService securityService;
 
 	@Autowired
-	protected UserDetailsServiceImpl userDetailsService;
+	protected VPUserDetailsService userDetailsService;
 
 	@Autowired
 	protected UserValidator userValidator;

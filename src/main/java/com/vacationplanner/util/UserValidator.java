@@ -1,18 +1,18 @@
 package com.vacationplanner.util;
 
+import com.vacationplanner.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import com.vacationplanner.model.User;
-import com.vacationplanner.service.IUserService;
+import com.vacationplanner.entity.User;
 
 @Component
 public class UserValidator implements Validator {
 	@Autowired
-	private IUserService userService;
+	private UserService userService;
 
 	@Override
 	public boolean supports(Class<?> aClass) {

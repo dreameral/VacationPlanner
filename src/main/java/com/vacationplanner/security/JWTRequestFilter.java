@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.vacationplanner.service.UserDetailsServiceImpl;
+import com.vacationplanner.service.VPUserDetailsService;
 import com.vacationplanner.util.JWTUtils;
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -24,7 +24,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 public class JWTRequestFilter extends OncePerRequestFilter {
 
 	@Autowired
-	private UserDetailsServiceImpl jwtUserDetailsService;
+	private VPUserDetailsService jwtUserDetailsService;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
