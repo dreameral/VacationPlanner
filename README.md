@@ -1,4 +1,4 @@
 # VacationPlanner
-A web application to manage the employees' vacations.
+A REST API to manage the employees' vacations.
 
 IN PROGRESS
