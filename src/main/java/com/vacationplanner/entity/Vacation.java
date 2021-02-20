@@ -1,16 +1,14 @@
 package com.vacationplanner.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "vacation")
-@Getter
-@Setter
-public class Vacation {
+@Data
+public class Vacation extends BasicEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

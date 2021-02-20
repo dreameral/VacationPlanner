@@ -1,16 +1,14 @@
 package com.vacationplanner.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "verification_token")
-@Getter
-@Setter
-public class VerificationToken {
+@Data
+public class VerificationToken extends BasicEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

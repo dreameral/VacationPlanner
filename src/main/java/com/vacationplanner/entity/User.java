@@ -3,14 +3,12 @@ package com.vacationplanner.entity;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 @Entity
 @Table(name = "user")
-@Getter
-@Setter
-public class User {
+@Data
+public class User extends BasicEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -46,6 +44,6 @@ public class User {
 		if (!(obj instanceof User))
 			return false;
 
-		return this.id == ((User) obj).getId();
+		return this.id.equals(((User) obj).getId());
 	}
 }
