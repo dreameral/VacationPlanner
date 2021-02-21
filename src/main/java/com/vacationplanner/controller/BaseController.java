@@ -4,7 +4,7 @@ import com.vacationplanner.entity.Role;
 import com.vacationplanner.entity.User;
 import com.vacationplanner.service.*;
 import com.vacationplanner.util.UserValidator;
-import com.vacationplanner.util.Utilities;
+import com.vacationplanner.util.VPUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class BaseController {
@@ -18,16 +18,13 @@ public class BaseController {
     protected EmailService emailService;
 
     @Autowired
-    protected SecurityService securityService;
-
-    @Autowired
     protected VPUserDetailsService userDetailsService;
 
     @Autowired
     protected UserValidator userValidator;
 
     protected User getLoggedInUser() {
-        return userService.findByUsername(Utilities.getLoggedInUsername());
+        return userService.findByUsername(VPUtils.getLoggedInUsername());
     }
 
     protected boolean isAdmin(User user) {

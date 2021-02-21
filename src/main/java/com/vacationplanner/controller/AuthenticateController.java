@@ -5,28 +5,23 @@ import com.vacationplanner.entity.Role;
 import com.vacationplanner.entity.VerificationToken;
 import com.vacationplanner.service.VerificationTokenService;
 import com.vacationplanner.util.Constants;
-import com.vacationplanner.util.Utilities;
+import com.vacationplanner.util.VPUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import com.vacationplanner.model.LoginDTO;
 import com.vacationplanner.model.Success;
 import com.vacationplanner.entity.User;
-import com.vacationplanner.util.JWTUtils;
 
 import java.util.UUID;
 
 @RestController
 public class AuthenticateController extends BaseController {
-    private final AuthenticationManager authenticationManager;
     private final VerificationTokenService verificationTokenService;
 
     @Autowired
-    public AuthenticateController(AuthenticationManager authenticationManager, VerificationTokenService verificationTokenService) {
-        this.authenticationManager = authenticationManager;
+    public AuthenticateController(VerificationTokenService verificationTokenService) {
         this.verificationTokenService = verificationTokenService;
     }
 
@@ -41,7 +36,7 @@ public class AuthenticateController extends BaseController {
         String token = UUID.randomUUID().toString();
         String textMessage = "Thank you for signing up!\n\nTo start using your account you have to first verify it by clicking the link below:\n" +
             Constants.APPLICATION_URL + "/verifyAccount?token=" + token;
-        emailService.sendEmail(Utilities.getMailMessage(new String[]{user.getEmail()}, "ACCOUNT VERIFICATION REQUIRED", textMessage));
+        emailService.sendEmail(VPUtils.getMailMessage(new String[]{user.getEmail()}, "ACCOUNT VERIFICATION REQUIRED", textMessage));
 
         user.setRole(Role.ADMIN); // only administrators can register
         userService.save(user);
@@ -49,24 +44,12 @@ public class AuthenticateController extends BaseController {
         VerificationToken verificationToken = new VerificationToken();
         verificationToken.setUser(user);
         verificationToken.setToken(token);
-        verificationToken.setExpirationDate(Utilities.calculateExpiryDate(60));
+        verificationToken.setExpirationDate(VPUtils.calculateExpiryDate(60));
 
         verificationTokenService.save(verificationToken);
 
 
         return ResponseEntity.ok(new Success(true));
-    }
-
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public LoginDTO createAuthenticationToken(@RequestBody User user) throws Exception {
-        user = userService.findByEmailOrUsername(user.getUsername(), user.getUsername());
-
-        if (user == null || !user.isEnabled()) {
-            throw new Exception("The user may not exist or it is not activated yet.");
-        }
-
-        final String token = JWTUtils.generateToken(user.getUsername());
-        return new LoginDTO(token, user);
     }
 
     @PostMapping(value = "/verifyAccount")

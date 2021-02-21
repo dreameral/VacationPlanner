@@ -5,7 +5,7 @@ import com.vacationplanner.model.PostVacationDTO;
 import com.vacationplanner.model.Success;
 import com.vacationplanner.entity.*;
 import com.vacationplanner.util.Constants;
-import com.vacationplanner.util.Utilities;
+import com.vacationplanner.util.VPUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
@@ -54,8 +54,8 @@ public class VacationController extends BaseController {
         Vacation vacation = new Vacation();
         vacation.setStatus(VacationStatus.PENDING); // every request will have the pending status when created
         vacation.setRequestedBy(user);
-        vacation.setStartDate(Utilities.getDateFromString(vacationDTO.getStartDate()));
-        vacation.setEndDate(Utilities.getDateFromString(vacationDTO.getEndDate()));
+        vacation.setStartDate(VPUtils.getDateFromString(vacationDTO.getStartDate()));
+        vacation.setEndDate(VPUtils.getDateFromString(vacationDTO.getEndDate()));
 
         vacationService.save(vacation);
 
@@ -70,7 +70,7 @@ public class VacationController extends BaseController {
 
             String message = vacationDTO.getMessage() == null ? Constants.DEFAULT_VACATION_MESSAGE : vacationDTO.getMessage();
 
-            emailService.sendEmail(Utilities.getMailMessage(to, "REQUEST FOR DAYS OFF", message));
+            emailService.sendEmail(VPUtils.getMailMessage(to, "REQUEST FOR DAYS OFF", message));
         }
 
         return ResponseEntity.ok(new Success(true));
@@ -84,17 +84,17 @@ public class VacationController extends BaseController {
 
         if (vacationDTO.getStatus() != null) {
             changes.addChange("Status", vacation.getStatus().toString(), vacationDTO.getStatus());
-            vacation.setStatus(Utilities.getVacationStatusFromString(vacationDTO.getStatus()));
+            vacation.setStatus(VPUtils.getVacationStatusFromString(vacationDTO.getStatus()));
         }
 
         if (vacationDTO.getStartDate() != null) {
             changes.addChange("StartDate", vacation.getStartDate().toString(), vacationDTO.getStartDate());
-            vacation.setStartDate(Utilities.getDateFromString(vacationDTO.getStartDate()));
+            vacation.setStartDate(VPUtils.getDateFromString(vacationDTO.getStartDate()));
         }
 
         if (vacationDTO.getEndDate() != null) {
             changes.addChange("EndDate", vacation.getEndDate().toString(), vacationDTO.getEndDate());
-            vacation.setEndDate(Utilities.getDateFromString(vacationDTO.getEndDate()));
+            vacation.setEndDate(VPUtils.getDateFromString(vacationDTO.getEndDate()));
         }
 
         vacationService.save(vacation);
@@ -109,7 +109,7 @@ public class VacationController extends BaseController {
         else
             sendTo[1] = requester.getTeamLeader().getEmail();
 
-        emailService.sendEmail(Utilities.getMailMessage(sendTo, "STATUS UPDATE", changes.toString()));
+        emailService.sendEmail(VPUtils.getMailMessage(sendTo, "STATUS UPDATE", changes.toString()));
 
         return ResponseEntity.ok(new Success(true));
     }
@@ -149,7 +149,7 @@ public class VacationController extends BaseController {
     private List<GetVacationDTO> getByStatus(String status) {
         List<GetVacationDTO> retVal = new ArrayList<>();
 
-        VacationStatus vacationStatus = Utilities.getVacationStatusFromString(status);
+        VacationStatus vacationStatus = VPUtils.getVacationStatusFromString(status);
         List<Vacation> vacations = vacationService.findByStatus(vacationStatus);
 
         for (Vacation vacation : vacations) {
@@ -162,7 +162,7 @@ public class VacationController extends BaseController {
     private List<GetVacationDTO> getByUserAndStatus(Long userId, String status) {
         List<GetVacationDTO> retVal = new ArrayList<>();
 
-        VacationStatus vacationStatus = Utilities.getVacationStatusFromString(status);
+        VacationStatus vacationStatus = VPUtils.getVacationStatusFromString(status);
         User user = userService.findById(userId);
 
         if (user == null)

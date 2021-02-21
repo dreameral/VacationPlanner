@@ -1,5 +1,6 @@
 package com.vacationplanner.service;
 
+import java.util.Collections;
 import java.util.HashSet;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,7 +27,6 @@ public class VPUserDetailsService implements UserDetailsService {
         if (user == null)
             throw new UsernameNotFoundException(username);
 
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-            new HashSet<>());
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), Collections.emptyList());
     }
 }

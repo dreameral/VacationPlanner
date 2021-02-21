@@ -4,7 +4,7 @@ import com.vacationplanner.model.ResetPasswordDTO;
 import com.vacationplanner.model.Success;
 import com.vacationplanner.entity.User;
 import com.vacationplanner.util.Constants;
-import com.vacationplanner.util.Utilities;
+import com.vacationplanner.util.VPUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -26,7 +26,7 @@ public class PasswordController extends BaseController {
         String emailContent = "To reset password click the link below:\n" +
             Constants.APPLICATION_URL + "/resetPassword?token=" + randomToken;
 
-        emailService.sendEmail(Utilities.getMailMessage(new String[]{user.getEmail()}, "Password Reset Request", emailContent));
+        emailService.sendEmail(VPUtils.getMailMessage(new String[]{user.getEmail()}, "Password Reset Request", emailContent));
 
         return new Success(true);
     }
@@ -41,7 +41,6 @@ public class PasswordController extends BaseController {
         user.setPassword(resetPasswordDTO.getNewPassword());
         user.setResetToken("");
         userService.save(user);
-        securityService.autoLogin(user.getUsername(), resetPasswordDTO.getNewPassword());
 
         return new Success(true);
     }

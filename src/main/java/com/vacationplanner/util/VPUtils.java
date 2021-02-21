@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Utilities {
+public class VPUtils {
 
     public static String getLoggedInUsername() {
         return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();

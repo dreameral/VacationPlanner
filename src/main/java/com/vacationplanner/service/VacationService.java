@@ -38,10 +38,7 @@ public class VacationService {
 
     public Vacation getById(Long id) {
         Optional<Vacation> request = leaveRepository.findById(id);
-        if (request.isPresent())
-            return request.get();
-
-        return null;
+        return request.orElse(null);
     }
 
     public void deleteById(Long id) {

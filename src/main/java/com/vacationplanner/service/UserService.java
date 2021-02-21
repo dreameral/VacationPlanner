@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.vacationplanner.entity.User;
@@ -13,12 +13,12 @@ import com.vacationplanner.repository.UserRepository;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public void save(User user) {
@@ -30,7 +30,7 @@ public class UserService {
             User updatedUser = entity.get();
 
             if (user.getPassword() != null)
-                updatedUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+                updatedUser.setPassword(passwordEncoder.encode(user.getPassword()));
             if (user.getRole() != null)
                 updatedUser.setRole(user.getRole());
             if (user.getUsername() != null)
@@ -38,7 +38,7 @@ public class UserService {
 
             userRepository.save(updatedUser);
         } else {
-            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
 
             userRepository.save(user);
         }
@@ -46,7 +46,7 @@ public class UserService {
 
     public User findById(Long id) {
         Optional<User> user = userRepository.findById(id);
-        return user.isPresent() ? user.get() : null;
+        return user.orElse(null);
     }
 
     public User findByEmail(String email) {
