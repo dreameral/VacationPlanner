@@ -1,6 +1,5 @@
 package com.vacationplanner.controller;
 
-import com.vacationplanner.model.Success;
 import com.vacationplanner.entity.User;
 import com.vacationplanner.util.Constants;
 import org.springframework.http.MediaType;
@@ -21,7 +20,7 @@ public class UserController extends BaseController {
 
     @GetMapping(value = "/users/{id}")
     public User getById(@PathVariable("id") Long id) {
-        return userService.findById(id);
+        return userService.getById(id);
     }
 
     @PostMapping(value = "/users")
@@ -52,14 +51,14 @@ public class UserController extends BaseController {
     }
 
     @DeleteMapping(value = "/users/{id}")
-    public Success deleteUser(@PathVariable("id") Long id) {
+    public ResponseEntity.HeadersBuilder<?> deleteUser(@PathVariable("id") Long id) {
         if (!isAdmin(getLoggedInUser())) {
             throw new AccessDeniedException(Constants.NOT_ALLOWED);
         }
 
         userService.deleteById(id);
 
-        return new Success(true);
+        return ResponseEntity.noContent();
     }
 
 }

@@ -13,36 +13,13 @@ import java.util.UUID;
 public class PasswordController extends BaseController {
 
     @GetMapping(value = "/forgotPassword")
-    public Success forgotPassword(@RequestParam(value = "email") String email) {
-        User user = userService.findByEmail(email);
-
-        if (user == null)
-            return new Success(false); //TODO handle error
-
-        String randomToken = UUID.randomUUID().toString();
-        user.setResetToken(randomToken);
-        userService.save(user);
-
-        String emailContent = "To reset password click the link below:\n" +
-            Constants.APPLICATION_URL + "/resetPassword?token=" + randomToken;
-
-        emailService.sendEmail(VPUtils.getMailMessage(new String[]{user.getEmail()}, "Password Reset Request", emailContent));
-
-        return new Success(true);
+    public void forgotPassword(@RequestParam(value = "email") String email) {
+        userService.emailToResetPassword(email);
     }
 
     @PostMapping(value = "/resetPassword")
-    public Success resetPassword(@RequestBody ResetPasswordDTO resetPasswordDTO) {
-        User user = userService.findByResetToken(resetPasswordDTO.getResetToken());
-
-        if (user == null)
-            return new Success(false); //TODO handle error
-
-        user.setPassword(resetPasswordDTO.getNewPassword());
-        user.setResetToken("");
-        userService.save(user);
-
-        return new Success(true);
+    public void resetPassword(@RequestBody ResetPasswordDTO resetPasswordDTO) {
+        userService.resetPassword(resetPasswordDTO.getResetToken(), resetPasswordDTO.getNewPassword());
     }
 
 }

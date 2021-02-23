@@ -10,40 +10,40 @@ public abstract class BasicService<E extends BasicEntity, R extends JpaRepositor
 
     protected R repository;
 
-    protected List<E> findAll() {
+    public List<E> findAll() {
         return repository.findAll();
     }
 
-    public E getById(long id) {
+    public E getById(Long id) {
         Optional<E> entity = repository.findById(id);
         return entity.orElse(null);
     }
 
-    protected E save(E entity) {
+    public E save(E entity) {
         return repository.save(entity);
     }
 
-    protected void softDeleteById(long id) {
+    public void softDeleteById(Long id) {
         E entity = getById(id);
 
         if (entity != null)
             softDelete(entity);
     }
 
-    protected void softDelete(E entity) {
+    public void softDelete(E entity) {
         entity.setDeleted(true);
         save(entity);
     }
 
-    protected void deleteById(long id) {
+    public void deleteById(Long id) {
         repository.deleteById(id);
     }
 
-    protected void delete(E entity) {
+    public void delete(E entity) {
         repository.delete(entity);
     }
 
-    protected long count() {
+    public long count() {
         return repository.count();
     }
 }

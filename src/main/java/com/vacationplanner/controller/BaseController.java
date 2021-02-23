@@ -17,22 +17,12 @@ public class BaseController {
     @Autowired
     protected EmailService emailService;
 
-    @Autowired
-    protected VPUserDetailsService userDetailsService;
-
-    @Autowired
-    protected UserValidator userValidator;
-
     protected User getLoggedInUser() {
         return userService.findByUsername(VPUtils.getLoggedInUsername());
     }
 
     protected boolean isAdmin(User user) {
         return user.getRole() == Role.ADMIN;
-    }
-
-    protected boolean isTeamLeader(User user) {
-        return user.getRole() == Role.TEAM_LEADER;
     }
 
     protected boolean isTeamMember(User user) {

@@ -132,7 +132,7 @@ public class VacationController extends BaseController {
     private List<GetVacationDTO> getByUserId(Long userId) {
         List<GetVacationDTO> retVal = new ArrayList<>();
 
-        User user = userService.findById(userId);
+        User user = userService.getById(userId);
 
         if (user == null)
             return retVal;
@@ -163,7 +163,7 @@ public class VacationController extends BaseController {
         List<GetVacationDTO> retVal = new ArrayList<>();
 
         VacationStatus vacationStatus = VPUtils.getVacationStatusFromString(status);
-        User user = userService.findById(userId);
+        User user = userService.getById(userId);
 
         if (user == null)
             return retVal;
