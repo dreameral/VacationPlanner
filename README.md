@@ -3,7 +3,7 @@ A REST API to manage the employees' vacations.
 
 IN PROGRESS
 
-# Contributing to Transcriptase
+# Contributing to VacationPlanner
 We love your input! We want to make contributing to this project as easy and transparent as possible, whether it's:
 
 - Reporting a bug
