@@ -1,7 +1,7 @@
 # VacationPlanner
 A REST API to manage the employees' vacations.
 
-IN PROGRESS
+The front end code of the application can be found [here](https://github.com/dreameral/VacationPlanner-Web-UI).
 
 # Contributing to VacationPlanner
 We love your input! We want to make contributing to this project as easy and transparent as possible, whether it's:
