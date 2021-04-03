@@ -3,7 +3,6 @@ package com.vacationplanner.controller;
 import com.vacationplanner.entity.Role;
 import com.vacationplanner.entity.User;
 import com.vacationplanner.service.*;
-import com.vacationplanner.util.UserValidator;
 import com.vacationplanner.util.VPUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
